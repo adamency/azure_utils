@@ -57,14 +57,16 @@ $slotBaseName = ($slot.Name -split '/')[1]
 
 if (-not(Is-TrafficRuleSet))
 {
-  echo "Traffic is set on 'production' slot, rerouting to '$slotBaseName'..."
+  echo "Traffic is set to 'production' slot, rerouting to '$slotBaseName'..."
   Add-AzWebAppTrafficRouting -ResourceGroupName $ResourceGroup -WebAppName $AppService -RoutingRule @{ActionHostName=$slot.DefaultHostName ; ReroutePercentage='100' ; Name=$slotBaseName}
+  $activatedSlot = $slotBaseName
 }
 else
 {
-  echo "Traffic is set on '$slotBaseName' slot, rerouting to 'production'..."
+  echo "Traffic is set to '$slotBaseName' slot, rerouting to 'production'..."
   Remove-AzWebAppTrafficRouting -ResourceGroupName $ResourceGroup -WebAppName $AppService -RuleName $slotBaseName
+  $activatedSlot = 'production'
 }
 
-echo "Traffic successfully switched between slots."
+echo "Traffic successfully switched between slots. The listening slot is now '$activatedSlot'"
 
