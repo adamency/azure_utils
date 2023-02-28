@@ -26,11 +26,11 @@ for ($i = 0 ; $i -lt $num_elements ; $i ++)
   $value = $(echo $app_service_json | jq "  .[$i].value" -)
   if ($i -eq ($num_elements - 1))
   {
-    echo "${name}: ${value},"
+    echo "${name}: ${value}"
   }
   else
   {
-    echo "${name}: ${value}"
+    echo "${name}: ${value},"
   }
 }
 echo "}"
